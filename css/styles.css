@@ -255,8 +255,8 @@ nav h1 a {
   font-size: 11pt;
 }
 
-#restaurants-list article a {
-  background-color: orange;
+#restaurants-list article button {
+  background-color: #e87d0c;
   border-bottom: 3px solid #eee;
   color: #fff;
   display: inline-block;
@@ -266,6 +266,7 @@ nav h1 a {
   text-align: center;
   text-decoration: none;
   text-transform: uppercase;
+  width: 100%;
 }
 
 
