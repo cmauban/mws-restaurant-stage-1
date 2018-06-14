@@ -239,8 +239,8 @@ nav h1 a {
   height: auto;
 }
 
-#restaurants-list article h1 {
-  color: #f18200;
+#restaurants-list article h3 {
+  color: #e87d0c;
   font-family: "Open Sans", Arial, sans-serif;
   font-size: 14pt;
   font-weight: 200;
