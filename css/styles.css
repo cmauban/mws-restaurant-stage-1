@@ -399,12 +399,26 @@ nav h1 a {
   margin: 15px 0 0 0;
 }
 
+#reviews-list li:last-of-type {
+  border-bottom: none;
+}
+
 #reviews-list p[class*='review-'] {
   margin: 2px 0;
 }
 
 #reviews-list p.review-name {
   font-weight: 600;
+}
+
+#reviews-list p.review-name:after {
+  content: '|';
+  margin: 0 5px;
+}
+
+#reviews-list p.review-name,
+#reviews-list p.review-date {
+  display: inline-block;
 }
 
 #restaurant-hours td {
