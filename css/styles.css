@@ -253,6 +253,7 @@ nav h1 a {
   margin: 0;
   max-width: 100%;
   height: auto;
+  overflow: hidden;
 }
 
 #restaurants-list article h3 {
@@ -328,6 +329,8 @@ nav h1 a {
 
 #restaurant-img {
   width: 100%;
+  overflow: hidden;
+  height: 40vh;
 }
 
 #restaurant-address {
@@ -355,7 +358,7 @@ nav h1 a {
   padding: 20px;
   width: 100%;
   justify-content: center;
-  /*display: flex;*/
+  display: flex;
   flex-wrap: wrap;
 }
 
