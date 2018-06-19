@@ -20,7 +20,6 @@ body {
   margin: 0 auto;
   position: relative;
 	width: 100%;
-	max-width: 1600px;
 }
 
 ul,
@@ -191,6 +190,11 @@ nav h1 a {
 
 
 /* ====================== Restaurant Filtering ====================== */
+
+.filter-options-content {
+  max-width: 1480px;
+  margin: 0 auto;
+}
 
 .filter-options {
   width: 100%;
@@ -368,6 +372,8 @@ nav h1 a {
   border-top: 1px solid #fff;
   padding: 20px;
   width: 100%;
+  margin: 0 auto;
+  max-width: 980px;
   justify-content: center;
   display: flex;
   flex-wrap: wrap;
@@ -402,6 +408,13 @@ nav h1 a {
   padding: 0 20px 20px;
   position: relative;
   width: 85%;
+}
+
+article .restaurant-copy {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  min-height: 120px;
 }
 
 #reviews-list article p {
