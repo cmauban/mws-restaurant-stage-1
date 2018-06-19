@@ -303,6 +303,7 @@ nav h1 a {
   /*right: 0;*/
   /*top: 80px;*/
   width: 100%;
+  margin-bottom: 20px;
 }
 
 .inside #map {
@@ -332,6 +333,14 @@ nav h1 a {
   overflow: hidden;
   /*height: 40vh;*/
 }
+
+#restaurant-details {
+  justify-content: center;
+  display: flex;
+  flex-wrap: wrap;
+  width: 100%;
+}
+
 
 #restaurant-address {
   font-size: 16px;
