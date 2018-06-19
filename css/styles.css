@@ -104,7 +104,7 @@ section {
 
 #footer {
   background-color: #444;
-  color: #aaa;
+  color: #b1b1b1;
   font-size: 8pt;
   letter-spacing: 1px;
   padding: 25px;
@@ -426,7 +426,7 @@ nav h1 a {
   color: #921a6e;
 }
 
-#reviews-list p.review-name:after {
+#reviews-list p.review-date:before {
   content: '|';
   margin: 0 5px;
 }
@@ -439,4 +439,10 @@ nav h1 a {
 #restaurant-hours td {
   color: #666;
   font-size: 14px;
+}
+
+
+/* ====================== Accessibility ====================== */
+label {
+  display: none;
 }

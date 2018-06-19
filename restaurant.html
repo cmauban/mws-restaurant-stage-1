@@ -34,16 +34,20 @@
     <!-- Beginning restaurant -->
     <section id="restaurant-container">
       <h2 id="restaurant-name"></h2>
-      <img id="restaurant-img">
+      <img id="restaurant-img" alt="">
       <p id="restaurant-cuisine"></p>
+      <label aria-labelledby="restaurant-cuisine">cuisine</label>
       <section id="restaurant-details">
-        <p id="restaurant-address"></p>
+        <p id="restaurant-address" aria-labelledby="restaurant-address"></p>
+        <label aria-labelledby="restaurant-address">address</label>
         <!-- Beginning map -->
-        <section id="map-container">
+        <section id="map-container" aria-labelledby="map-container">
           <div id="map"></div>
         </section>
+        <label aria-labelledby="map-container">map</label>
         <!-- End map -->
-        <table id="restaurant-hours"></table>
+        <table id="restaurant-hours" aria-labelledby="restaurant-hours"></table>
+        <label aria-labelledby="restaurant-hours">hours</label>
       </section>
     </section>
     <!-- end restaurant -->
