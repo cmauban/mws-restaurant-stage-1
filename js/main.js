@@ -171,7 +171,8 @@ createRestaurantHTML = (restaurant) => {
   const imgUrlx1 = imgParts[0] + '-300_1x.' + imgParts[1];
   const imgUrlx2 = imgParts[0] + '-600_2x.' + imgParts[1];
   image.src = imgUrlx1;
-  image.srcset = `$(imgUrlx1) 300w, $(imgUrlx2) 600w`;
+  image.srcset = `${imgUrlx1} 300w, ${imgUrlx2} 600w`;
+  image.alt = restaurant.name + ' promo';
   article.append(image);
 
   const copy = document.createElement('div');
