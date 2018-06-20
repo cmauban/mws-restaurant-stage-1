@@ -93,7 +93,7 @@ fillRestaurantHTML = (restaurant = self.restaurant) => {
   const imgUrlx2 = imgParts[0] + '-600_2x.' + imgParts[1];
   const imgUrlx3 = imgParts[0] + '-980_3x.' + imgParts[1];
   image.src = imgUrlx2;
-  image.srcset = `${imgUrlx2} 600w, ${imgUrlx3} 980w`;
+  image.srcset = `${imgUrlx2} 600w, ${imgUrlx3} 900w`;
   image.alt = restaurant.name + ' promo';
 
   const cuisine = document.getElementById('restaurant-cuisine');
