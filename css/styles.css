@@ -247,8 +247,8 @@ nav h1 a {
   min-height: 380px;
   padding: 20px;
   text-align: left;
-  width: 270px;
-  min-width: 270px;
+  width: 30%;
+  max-width: 300px;
 }
 
 #restaurants-list .restaurant-img {
