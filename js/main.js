@@ -156,9 +156,22 @@ fillRestaurantsHTML = (restaurants = self.restaurants) => {
 createRestaurantHTML = (restaurant) => {
   const article = document.createElement('article');
 
+  // const source = document.createElement('source');
+  // source.media = '(min-width: 980px)';
+  // const imgUrl = DBHelper.imageUrlForRestaurant(restaurant, 'thumbnail');
+  // const imgParts = imgUrl.split('.');
+  // const imgUrl1x = imgParts[0] + '_1x' + imgParts[1];
+  // source.srcset = `$(imgUrl1x)`;
+  // article.append(source);
+
   const image = document.createElement('img');
   image.className = 'restaurant-img';
-  image.src = DBHelper.imageUrlForRestaurant(restaurant);
+  const imgUrl = DBHelper.imageUrlForRestaurant(restaurant, 'thumbnail');
+  const imgParts = imgUrl.split('.');
+  const imgUrlx1 = imgParts[0] + '-300_1x.' + imgParts[1];
+  const imgUrlx2 = imgParts[0] + '-600_2x.' + imgParts[1];
+  image.src = imgUrlx1;
+  image.srcset = `$(imgUrlx1) 300w, $(imgUrlx2) 600w`;
   article.append(image);
 
   const copy = document.createElement('div');
