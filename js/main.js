@@ -156,17 +156,24 @@ fillRestaurantsHTML = (restaurants = self.restaurants) => {
 createRestaurantHTML = (restaurant) => {
   const article = document.createElement('article');
 
-  const image = document.createElement('img');
-  image.className = 'restaurant-img';
-  const imgUrl = DBHelper.imageUrlForRestaurant(restaurant, 'thumbnail');
-  const imgParts = imgUrl.split('.');
-  const imgUrlx1 = imgParts[0] + '-300_1x.' + imgParts[1];
-  const imgUrlx2 = imgParts[0] + '-600_2x.' + imgParts[1];
-  image.src = imgUrlx1;
-  image.srcset = `${imgUrlx1} 300w, ${imgUrlx2} 600w`;
-  image.sizes = `(max-width: 480px) 300px, 600px`
-  image.alt = restaurant.name + ' promo';
-  article.append(image);
+  const picture = document.createElement('picture');
+
+    const source = document.createElement('source');
+    source.media = '(min-width: 640px)';
+    const imgUrl = DBHelper.imageUrlForRestaurant(restaurant, 'thumbnail');
+    const imgParts = imgUrl.split('.');
+    const imgUrlx2 = imgParts[0] + '-600_2x.' + imgParts[1];
+    source.srcset = `${imgUrlx2}`;
+    picture.append(source);
+
+    const image = document.createElement('img');
+    image.className = 'restaurant-img';
+    const imgUrlx1 = imgParts[0] + '-300_1x.' + imgParts[1];
+    image.src = imgUrlx1;
+    image.alt = restaurant.name + ' promo';
+    picture.append(image);
+
+  article.append(picture);
 
   const copy = document.createElement('div');
   copy.className = 'restaurant-copy';
