@@ -17,14 +17,15 @@
 
   <body>
     <header>
-      <nav>
+      <div>
         <h1><a href="/">Restaurant Reviews</a></h1>
-      </nav>
+      </div>
     </header>
 
     <main id="main-content">
-      <section id="map-container">
+      <section id="map-container" aria-labelledby="map-description" role="application">
         <div id="map"></div>
+        <label id="map-description">Google Map</label>
       </section>
       <section>
         <div class="filter-options">
@@ -50,9 +51,13 @@
 
 
     <footer id="footer">
-      Copyright (c) 2017 <a href="/"><strong>Restaurant Reviews</strong></a> All Rights Reserved.
+      Copyright (c) 2017
+      <a href="/">
+        <strong>Restaurant Reviews</strong>
+      </a>
+      All Rights Reserved.
     </footer>
 
   </body>
-
+  <script type="application/javascript" charset="utf-8" src="js/register.js"></script>
 </html>

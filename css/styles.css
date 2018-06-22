@@ -120,16 +120,16 @@ header {
   text-align: center;
 }
 
-nav {
+header div {
   background-color: #252831;
   padding: 1em;
 }
 
-nav h1 {
+header h1 {
   margin: auto;
 }
 
-nav h1 a {
+header h1 a {
   color: #fff;
   font-size: 30px;
   font-weight: 200;
