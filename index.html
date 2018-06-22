@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="Project 1 for MWS">
+    <meta name="description" content="Restaurant Listings page">
 
     <link rel="stylesheet" src="//normalize-css.googlecode.com/svn/trunk/normalize.css" />
     <link rel="stylesheet" href="css/styles.css">
@@ -30,14 +30,14 @@
         <div class="filter-options">
           <div class="filter-options-content">
           <h2>Filter Results</h2>
-          <select id="neighborhoods-select" name="neighborhoods" onchange="updateRestaurants()">
+          <select id="neighborhoods-select" name="neighborhoods" onchange="updateRestaurants()" aria-labelledby="neighborhoods-select-label">
             <option value="all">All Neighborhoods</option>
           </select>
-          <label for="neighborhoods-select" aria-labelledby="neighborhoods-select">neighborhood select</label>
-          <select id="cuisines-select" name="cuisines" onchange="updateRestaurants()">
+          <label id="neighborhoods-select-label">neighborhood select</label>
+          <select id="cuisines-select" name="cuisines" onchange="updateRestaurants()" aria-labelledby="cuisines-select-label">
             <option value="all">All Cuisines</option>
           </select>
-          <label for="cuisines-select" aria-labelledby="cuisines-select">cuisine select</label>
+          <label id="cuisines-select-label">cuisine select</label>
         </div>
         </div>
         <div id="restaurants-list"></div>
