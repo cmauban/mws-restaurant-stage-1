@@ -1,22 +1,26 @@
-var cacheID = "mws-restaurant-001";
+const cacheID = "restaurant-v1";
+
+let filesToCache = [
+  "/",
+  "/restaurant.html",
+  "/css/styles.css",
+  "/data/restaurant.json",
+  "/js/",
+  "/js/main.js",
+  "/js/restaurant_info.js",
+  "/img/",
+  "/js/dbhelper.js",
+  "/data/restaurant.json",
+  "/js/register.js"
+];
 
 // Install serviceWorker
-self.addEventListener('install', event => {
+self.addEventListener('install', function(event) {
   // Wait until you open the cache and open all items
   event.waitUntil(
-    caches.open(cacheID).then(cache => {
+    caches.open(cacheID).then(function(cache) {
       return cache
-      .addAll([
-        "/",
-        "/restaurant.html",
-        "css/styles.css",
-        "/data/restaurant.json",
-        "/js/",
-        "/js/main.js",
-        "/js/restaurant_info.js",
-        "/img/",
-        "/js/register.js"
-      ])
+      .addAll(filesToCache)
       .catch(error => {
         console.log("Caches open failed: " + error);
       });
@@ -25,7 +29,7 @@ self.addEventListener('install', event => {
 });
 
 // After installation, listen for fetched item.
-self.addEventListener('fetch', event => {
+self.addEventListener('fetch', function(event) {
   let cacheRequest = event.request;
   let cacheUrlObj = new URL(event.request.url);
 
@@ -43,13 +47,12 @@ self.addEventListener('fetch', event => {
 
   // If its in the cache, return cache.
   event.respondWith(
-    caches.match(cacheRequest).then(response => {
+    caches.match(cacheRequest).then(function(response) {
       return (
-        response ||
-        fetch(event.request)
+        response || fetch(event.request)
           // If its not in the cache, fetch from the internet.
-          .then(fetchResponse => {
-            return caches.open(cacheID).then(cache => {
+          .then(function(fetchResponse) {
+            return caches.open(cacheID).then(function(cache) {
               // Put fetch in cache.
               cache.put(event.request, fetchResponse.clone());
               // Return response.
@@ -57,7 +60,7 @@ self.addEventListener('fetch', event => {
             });
           })
           // If there's an error, return backup image.
-          .catch(error => {
+          .catch(function(error) {
             if (event.request.url.indexOf('.jpg') > -1) {
               return caches.match('/img/no-image.png');
             }
