@@ -167,7 +167,7 @@ header h1 a {
 /* Add a color to all links inside the list */
 
 #breadcrumb li a {
-  color: #0275d8;
+  color: #006cc9;
   text-decoration: none;
 }
 
@@ -188,6 +188,9 @@ header h1 a {
   background-color: #ccc;
 }
 
+.leaflet-control-attribution.leaflet-control a{
+  color: #0075a4;
+}
 
 /* ====================== Restaurant Filtering ====================== */
 
@@ -251,7 +254,6 @@ header h1 a {
 }
 
 #restaurants-list .restaurant-img {
-  background-color: #ccc;
   display: block;
   margin: 0;
   max-width: 100%;
