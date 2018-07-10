@@ -4,6 +4,7 @@ var gulp = require('gulp');
 // Include Our Plugins
 // var jshint = require('gulp-jshint');
 var sass = require('gulp-sass');
+var autoprefixer = require('gulp-autoprefixer');
 // var concat = require('gulp-concat');
 // var uglify = require('gulp-uglify');
 // var rename = require('gulp-rename');
@@ -19,6 +20,9 @@ var sass = require('gulp-sass');
 gulp.task('sass', function() {
     gulp.src('scss/*.scss')
         .pipe(sass().on('error', sass.logError))
+        .pipe(autoprefixer({
+          browsers: ['last 2 versions']
+        }))
         .pipe(gulp.dest('./css'));
 });
 
