@@ -8,10 +8,12 @@ var autoprefixer = require('gulp-autoprefixer');
 var browserSync = require('browser-sync').create();
 
 // Static server browser-sync
-gulp.task('start', function() {
+gulp.task('default', ['sass'], function() {
+    gulp.watch('scss/*.scss', ['sass']);
+
     browserSync.init({
         server: {
-            baseDir: "./"
+            server: "./"
         }
     });
 });
@@ -37,11 +39,6 @@ gulp.task('sass', function() {
 //         .pipe(gulp.dest('dist/js'));
 // });
 //
-// Watch Files For Changes
-gulp.task('watch', function() {
-    // gulp.watch('js/*.js', ['lint', 'scripts']);
-    gulp.watch('scss/*.scss', ['sass']);
-});
 
 // Default Task
-gulp.task('default', ['start', 'sass', 'watch']);
+gulp.task('default', ['sass']);
