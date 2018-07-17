@@ -14,10 +14,22 @@ gulp.task('default', ['copy-html', 'copy-images', 'sass'], function() {
     gulp.watch('/index.html', ['copy-html']);
 
     browserSync.init({
-        server: {
-            server: "./dist"
-        }
+      server: {
+          baseDir: "./dist"
+      }
     });
+
+    gulp.watch('./dist/index.html')
+      .on('change', browserSync.reload);
+});
+
+// Start browserSync
+gulp.task('start', function(){
+  browserSync.init({
+    server: {
+        baseDir: "./dist"
+    }
+  });
 });
 
 // Compile sass into CSS + auto-inject into browsers
@@ -63,4 +75,4 @@ gulp.task('test', function() {
 //
 
 // Default Task
-gulp.task('default', ['sass']);
+gulp.task('default', ['start', 'sass']);
