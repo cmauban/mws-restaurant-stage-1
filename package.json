@@ -26,7 +26,8 @@
     "grunt-mkdir": "~0.1.2",
     "grunt-responsive-images": "^0.1.9",
     "gulp": "^3.9.1",
-    "gulp-autoprefixer": "^5.0.0"
+    "gulp-autoprefixer": "^5.0.0",
+    "gulp-jasmine-phantom": "^3.0.0"
   },
   "dependencies": {
     "gulp-sass": "^4.0.1"
