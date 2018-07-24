@@ -27,10 +27,16 @@
     "grunt-responsive-images": "^0.1.9",
     "gulp": "^3.9.1",
     "gulp-autoprefixer": "^5.0.0",
-    "gulp-jasmine-phantom": "^3.0.0"
+    "gulp-jasmine-phantom": "^3.0.0",
+    "gulp-uglify": "^3.0.0"
   },
   "dependencies": {
-    "gulp-sass": "^4.0.1"
+    "gulp-concat": "^2.6.1",
+    "gulp-eslint": "^5.0.0",
+    "gulp-sass": "^4.0.1",
+    "gulp-sourcemaps": "^2.6.4",
+    "imagemin": "^6.0.0",
+    "imagemin-pngquant": "^6.0.0"
   },
   "homepage": "https://github.com/cmauban/mws-restaurant-stage-1#readme"
 }

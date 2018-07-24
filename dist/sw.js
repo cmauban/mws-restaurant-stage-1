@@ -11,7 +11,8 @@ let filesToCache = [
   "/img/",
   "/js/dbhelper.js",
   "/data/restaurant.json",
-  "/js/register.js"
+  "/js/register.js",
+  "/js/all.js"
 ];
 
 // Install serviceWorker
