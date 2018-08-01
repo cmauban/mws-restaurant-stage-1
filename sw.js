@@ -2,8 +2,6 @@
 
 const cacheID = "restaurant-v2";
 
-
-
 let filesToCache = [
   "/",
   "/restaurant.html",
