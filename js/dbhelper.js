@@ -1,3 +1,12 @@
+// open database
+const dbPromise = idb.open('mws-restaurant-stage-2', 1, function(upgradeDB){
+  switch(upgradeDB.oldVersion) {
+    case 0: // placeholder
+    case 1:
+      upgradeDB.createObjectStore('restaurants', {keyPath: 'id'});
+      console.log('Created restaurant review obj store');
+  }
+});
 /**
  * Common database helper functions.
  */

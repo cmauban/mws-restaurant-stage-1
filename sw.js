@@ -2,19 +2,14 @@
 
 const cacheID = "restaurant-v2";
 
-// open database
-const dbPromise = idb.open('mws-restaurant-stage-2', 1, function(upgradeDB){
-  switch(upgradeDB.oldVersion) {
-    case 0:
-      upgradeDB.createObjectStore('restaurants', {keyPath: 'id'});
-      console.log('Created restaurant review obj store');
-  }
-});
+
 
 let filesToCache = [
   "/",
   "/restaurant.html",
   "/css/styles.css",
+  "/js/idb.js",
+  "/sw.js",
   "/js/main.js",
   "/js/restaurant_info.js",
   "/img/",
