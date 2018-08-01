@@ -1,13 +1,15 @@
-// import idb from "./idb";
+// import idb from "js/idb.js";
 
 const cacheID = "restaurant-v2";
 
-// const dbPromise = idb.open("mws-restaurant-stage-1", 1, upgradeDB => {
-//   switch (upgradeDB.oldVersion) {
-//     case 0:
-//       upgradeDB.createObjectStore("restaurants", {keyPath: "id"});
-//   }
-// });
+// open database
+const dbPromise = idb.open('mws-restaurant-stage-2', 1, function(upgradeDB){
+  switch(upgradeDB.oldVersion) {
+    case 0:
+      upgradeDB.createObjectStore('restaurants', {keyPath: 'id'});
+      console.log('Created restaurant review obj store');
+  }
+});
 
 let filesToCache = [
   "/",

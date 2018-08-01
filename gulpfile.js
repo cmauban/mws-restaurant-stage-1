@@ -3,6 +3,7 @@ var gulp = require('gulp');
 
 // Include Our Plugins
 // var jshint = require('gulp-jshint');
+var browserify = require('browserify');
 var sass = require('gulp-sass');
 var autoprefixer = require('gulp-autoprefixer');
 var browserSync = require('browser-sync').create();

@@ -27,6 +27,7 @@
     "grunt-responsive-images": "^0.1.9",
     "gulp": "^3.9.1",
     "gulp-autoprefixer": "^5.0.0",
+    "gulp-browserify": "^0.5.1",
     "gulp-jasmine-phantom": "^3.0.0",
     "gulp-uglify": "^3.0.0"
   },
