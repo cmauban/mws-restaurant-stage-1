@@ -93,7 +93,7 @@ fillRestaurantHTML = (restaurant = self.restaurant) => {
     const imgParts = imgUrl.split('.');
     const imgUrlx3 = imgParts[0] + '-980_3x.' + imgParts[1];
     source.srcset = imgUrlx3;
-  
+
     const image = document.getElementById('restaurant-img');
     image.className = 'restaurant-img';
     const imgUrlx2 = imgParts[0] + '-600_2x.' + imgParts[1];

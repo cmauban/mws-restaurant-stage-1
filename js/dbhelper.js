@@ -7,6 +7,9 @@ const dbPromise = idb.open('mws-restaurant-stage-2', 1, function(upgradeDB){
       console.log('Created restaurant review obj store');
   }
 });
+
+
+
 /**
  * Common database helper functions.
  */

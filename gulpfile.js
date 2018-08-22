@@ -92,7 +92,12 @@ gulp.task('copy-data', function(){
 gulp.task('copy-sw', function(){
   gulp.src('src/sw.js')
     .pipe(gulp.dest('./dist'));
-})
+});
+
+// import sw for js
+gulp.task('sw', function(){
+
+});
 
 // Concatenate & Minify JS
 gulp.task('scripts', function(){

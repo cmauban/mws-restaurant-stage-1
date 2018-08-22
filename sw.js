@@ -16,6 +16,7 @@ let filesToCache = [
   "/js/all.js"
 ];
 
+
 // Install serviceWorker
 self.addEventListener('install', function(event) {
   // Wait until you open the cache and open all items
@@ -41,37 +42,67 @@ self.addEventListener('fetch', function(event) {
     cacheRequest = new Request(cacheURL);
   }
 
-  // Added to get rid of cors issue.
-  // If its running locally, setting request mode to no cors.
-  if (cacheUrlObj.hostname !== 'localhost') {
-    event.request.mode = 'no-cors';
-  }
-
-  // If its in the cache, return cache.
   event.respondWith(
     caches.match(cacheRequest).then(function(response) {
-      return (
-        response || fetch(event.request)
-          // If its not in the cache, fetch from the internet.
-          .then(function(fetchResponse) {
-            return caches.open(cacheID).then(function(cache) {
-              // Put fetch in cache.
-              cache.put(event.request, fetchResponse.clone());
-              // Return response.
-              return fetchResponse;
-            });
-          })
-          // If there's an error, return backup image.
-          .catch(function(error) {
-            if (event.request.url.indexOf('.jpg') > -1) {
-              return caches.match('/img/no-image.png');
-            }
-            return new Response('Application is not connected to the internet', {
-              status: 404,
-              statusText: "Application is not connected to the internet"
-            });
-          })
-      );
+      // If its in the cache, return cache.
+      if (response) {
+        return response;
+      }
+
+      // clone the Request
+      var fetchRequest = cacheRequest.clone();
+
+      // console.log('Network request for ', event.request);
+      return fetch(fetchRequest).then(function(response) {
+        if(!response || response.status !== 200 || response.type !== 'basic') {
+          return response;
+        }
+
+        // clone the response
+        var responseToCache = response.clone();
+
+        // if its not in the cache, fetch from the internet.
+        caches.open(cacheID).then(function(cache) {
+          // Put fetch in cache.
+          cache.put(cacheRequest, responseToCache);
+        });
+
+        return response;
+      });
+
     })
-  );
+);
+
+  // // If its in the cache, return cache.
+  // event.respondWith(
+  //   caches.match(cacheRequest).then(function(response) {
+  //     return (
+  //       response || fetch(event.request)
+  //         // If its not in the cache, fetch from the internet.
+  //         .then(function(fetchResponse) {
+  //           return caches.open(cacheID).then(function(cache) {
+  //             // Put fetch in cache.
+  //             cache.put(event.request.url, fetchResponse.clone());
+  //             // Return response.
+  //             return fetchResponse;
+  //           });
+  //         })
+  //         // If there's an error, return backup image.
+  //         .catch(function(error) {
+  //           if (event.request.url.indexOf('.jpg') > -1) {
+  //             return caches.match('/img/no-image.png');
+  //           }
+  //           return new Response('Application is not connected to the internet', {
+  //             status: 404,
+  //             statusText: "Application is not connected to the internet"
+  //           });
+  //         })
+  //     );
+  //   })
+  // );
+
+
+
+
+
 });
