@@ -12,8 +12,7 @@ let filesToCache = [
   "/js/restaurant_info.js",
   "/img/",
   "/js/dbhelper.js",
-  "/js/register.js",
-  "/js/all.js"
+  "/js/register.js"
 ];
 
 
@@ -52,11 +51,7 @@ self.addEventListener('fetch', function(event) {
       // clone the Request
       var fetchRequest = cacheRequest.clone();
 
-      // console.log('Network request for ', event.request);
       return fetch(fetchRequest).then(function(response) {
-        if(!response || response.status !== 200 || response.type !== 'basic') {
-          return response;
-        }
 
         // clone the response
         var responseToCache = response.clone();
@@ -71,38 +66,7 @@ self.addEventListener('fetch', function(event) {
       });
 
     })
-);
-
-  // // If its in the cache, return cache.
-  // event.respondWith(
-  //   caches.match(cacheRequest).then(function(response) {
-  //     return (
-  //       response || fetch(event.request)
-  //         // If its not in the cache, fetch from the internet.
-  //         .then(function(fetchResponse) {
-  //           return caches.open(cacheID).then(function(cache) {
-  //             // Put fetch in cache.
-  //             cache.put(event.request.url, fetchResponse.clone());
-  //             // Return response.
-  //             return fetchResponse;
-  //           });
-  //         })
-  //         // If there's an error, return backup image.
-  //         .catch(function(error) {
-  //           if (event.request.url.indexOf('.jpg') > -1) {
-  //             return caches.match('/img/no-image.png');
-  //           }
-  //           return new Response('Application is not connected to the internet', {
-  //             status: 404,
-  //             statusText: "Application is not connected to the internet"
-  //           });
-  //         })
-  //     );
-  //   })
-  // );
-
-
-
+  );
 
 
 });
