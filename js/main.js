@@ -177,6 +177,8 @@ createRestaurantHTML = (restaurant) => {
   article.append(copy);
 
   const more = document.createElement('button');
+  // add aria-label to view-details button for screen readers
+  more.setAttribute('aria-label', 'view details for ' + restaurant.name);
   more.innerHTML = 'View Details';
   more.onclick = function() {
     const link = DBHelper.urlForRestaurant(restaurant);
