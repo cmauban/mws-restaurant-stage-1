@@ -48,10 +48,7 @@ self.addEventListener('fetch', function(event) {
         return response;
       }
 
-      // clone the Request
-      var fetchRequest = cacheRequest.clone();
-
-      return fetch(fetchRequest).then(function(response) {
+      return fetch(cacheRequest).then(function(response) {
 
         // clone the response
         var responseToCache = response.clone();

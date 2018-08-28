@@ -5,6 +5,7 @@ const dbPromise = idb.open('mws-restaurant-stage-2', 1, function(upgradeDB){
     case 1:
       upgradeDB.createObjectStore('restaurants', {keyPath: 'id'});
       console.log('Created restaurant review obj store');
+      storeRestaurantsToIDB();
   }
 });
 
@@ -15,6 +16,18 @@ const dbPromise = idb.open('mws-restaurant-stage-2', 1, function(upgradeDB){
  */
 class DBHelper {
 
+  // store restaurants to indexDB
+  static storeRestaurantsToIDB() {
+    var dbPromise = this.openDatabase();
+    return dbPromise.then((db) => {
+      var tx = db.transaction('restaurants', 'readwrite');
+      var restaurantStore = tx.objectStore('restaurants');
+      restaurants.forEach(restaurant => {
+        restaurantStore.put(restaurant);
+      })
+    })
+  }
+
   /**
    * Database URL.
    * Change this to restaurants.json file location on your server.
@@ -24,10 +37,22 @@ class DBHelper {
     return `http://localhost:${port}/restaurants`;
   }
 
+  // fetch restaurants from indexDB
+  static getRestaurantsFromIDB() {
+    var dbPromise = this.openDatabase();
+    return dbPromise.then((db) => {
+      var tx = db.transaction('restaurants', 'readonly');
+      var restaurantStore = tx.objectStore('restaurants');
+      var all = restaurantStore.getAll();
+      return all;
+    })
+  }
+
   /**
    * Fetch all restaurants.
    */
   static fetchRestaurants(callback, id) {
+
     // let xhr = new XMLHttpRequest();
     let fetchURL;
 
