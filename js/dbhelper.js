@@ -5,7 +5,7 @@ const dbPromise = idb.open('mws-restaurant-stage-2', 1, function(upgradeDB){
     case 1:
       upgradeDB.createObjectStore('restaurants', {keyPath: 'id'});
       console.log('Created restaurant review obj store');
-      storeRestaurantsToIDB();
+      // DBHelper.storeRestaurantsToIDB();
   }
 });
 
@@ -16,18 +16,6 @@ const dbPromise = idb.open('mws-restaurant-stage-2', 1, function(upgradeDB){
  */
 class DBHelper {
 
-  // store restaurants to indexDB
-  static storeRestaurantsToIDB() {
-    var dbPromise = this.openDatabase();
-    return dbPromise.then((db) => {
-      var tx = db.transaction('restaurants', 'readwrite');
-      var restaurantStore = tx.objectStore('restaurants');
-      restaurants.forEach(restaurant => {
-        restaurantStore.put(restaurant);
-      })
-    })
-  }
-
   /**
    * Database URL.
    * Change this to restaurants.json file location on your server.
@@ -37,15 +25,41 @@ class DBHelper {
     return `http://localhost:${port}/restaurants`;
   }
 
-  // fetch restaurants from indexDB
+  // STORE RESTAURANTS TO indexDB
+  static storeRestaurantsToIDB() {
+
+    // fetch data from server and convert to JSON
+    fetch(DBHelper.DATABASE_URL).then(function(response) {
+      return response.json();
+    // put JSON data in restaurants indexDB
+    }).then(function(restaurants) {
+      console.log('pulled restaurant json data successful');
+      dbPromise.then(function(db) {
+        if(!db) return;
+        var tx = db.transaction('restaurants', 'readwrite');
+        var store = tx.objectStore('restaurants');
+        restaurants.forEach(function(restaurant) {
+          store.put(restaurant)
+        });
+      });
+      // return it
+      // console.log('restaurants ', restaurants);
+      callback(null, restaurants);
+    }).catch(function(err) {
+      const error = (`unable to store restaurants ${err}`);
+    });
+
+  }
+
+  // FETCH RESTAURANTS FROM indexDB
   static getRestaurantsFromIDB() {
-    var dbPromise = this.openDatabase();
-    return dbPromise.then((db) => {
+    dbPromise.then(function(db) {
       var tx = db.transaction('restaurants', 'readonly');
-      var restaurantStore = tx.objectStore('restaurants');
-      var all = restaurantStore.getAll();
-      return all;
-    })
+      var store = tx.objectStore('restaurants');
+      return store.getAll();
+    }).then(function(items) {
+      console.log('restaurant names:', items);
+    });
   }
 
   /**
@@ -55,6 +69,9 @@ class DBHelper {
 
     // let xhr = new XMLHttpRequest();
     let fetchURL;
+
+    DBHelper.storeRestaurantsToIDB();
+    DBHelper.getRestaurantsFromIDB();
 
     if (!id) {
       fetchURL = DBHelper.DATABASE_URL;
@@ -225,6 +242,7 @@ class DBHelper {
       marker.addTo(newMap);
     return marker;
   }
+
   /* static mapMarkerForRestaurant(restaurant, map) {
     const marker = new google.maps.Marker({
       position: restaurant.latlng,

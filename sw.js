@@ -1,5 +1,3 @@
-// import idb from "js/idb.js";
-
 const cacheID = "restaurant-v2";
 
 let filesToCache = [
