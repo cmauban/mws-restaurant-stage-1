@@ -235,13 +235,17 @@ header h1 a {
 
 #restaurants-list article {
   background-color: #fff;
-  border: 2px solid #ccc;
+  border: 1px solid #ccc;
   font-family: Arial, sans-serif;
   margin: 15px;
   min-height: 380px;
-  padding: 20px;
   text-align: left;
   max-width: 300px;
+  position: relative;
+}
+
+#restaurants-list .article-info {
+  padding: 20px;
 }
 
 #restaurants-list article h3 {
@@ -255,7 +259,35 @@ header h1 a {
   text-transform: capitalize;
 }
 
-#restaurants-list article button {
+#restaurants-list article button.favorite-icon {
+  float: right;
+  position: absolute;
+  top: 0;
+  right: 0;
+  background: transparent;
+  width: 48px;
+  height: 48px;
+  padding-top: 7px;
+  border: none;
+}
+
+#restaurants-list article button.favorite-icon span {
+  font-size: 20px;
+  color: transparent;
+  display: block;
+}
+
+#restaurants-list article button.favorite-icon span.favorite_no {
+  background-size: 15px;
+  background: url(/img/heart-regular.svg) no-repeat;
+}
+
+#restaurants-list article button.favorite-icon span.favorite_yes {
+  background-size: 15px;
+  background: url(/img/heart-solid.svg) no-repeat;
+}
+
+#restaurants-list article button.view-details {
   background-color: #921a6e;
   border-bottom: 3px solid #921a6e;
   color: #fff;

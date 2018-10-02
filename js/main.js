@@ -138,11 +138,37 @@ fillRestaurantsHTML = (restaurants = self.restaurants) => {
   addMarkersToMap();
 }
 
+
 /**
  * Create restaurant HTML.
  */
 createRestaurantHTML = (restaurant) => {
   const article = document.createElement('article');
+
+  const isFavorite = (restaurant['is_favorite'] && restaurant['is_favorite'].toString() === 'true') ? true : false;
+  const favoriteContainer = document.createElement('div');
+  favoriteContainer.className = 'favorite-container';
+
+    const favorite = document.createElement('button');
+    favorite.id = 'favorite-icon-' + restaurant.id;
+    favorite.className = 'favorite-icon';
+      const favoriteIcon = document.createElement('span');
+        favoriteIcon.innerHTML = isFavorite
+        ? restaurant.name + ' is favorite'
+        : restaurant.name + ' is not a favorite';
+       favorite.append(favoriteIcon);
+       favorite.classList.add('fav_button');
+    favorite.onclick = event => handleFavoriteClick(restaurant.id, !isFavorite);
+      favorite.onclick = function() {
+        const isFavorite = !restaurant.is_favorite;
+        // DBHelper.updateFavoriteStatus(restaurant.id, isFavorite);
+        restaurant.is_favorite = !restaurant.is_favorite
+        changeFavElement(favoriteIcon, restaurant.is_favorite)
+    };
+    changeFavElement(favoriteIcon, restaurant.is_favorite);
+
+    favoriteContainer.append(favorite);
+  article.append(favoriteContainer);
 
   const picture = document.createElement('picture');
 
@@ -159,6 +185,9 @@ createRestaurantHTML = (restaurant) => {
 
   article.append(picture);
 
+  const infoContainer = document.createElement('div');
+  infoContainer.className = 'article-info';
+
   const copy = document.createElement('div');
   copy.className = 'restaurant-copy';
 
@@ -174,9 +203,10 @@ createRestaurantHTML = (restaurant) => {
     address.innerHTML = restaurant.address;
     copy.append(address);
 
-  article.append(copy);
+  infoContainer.append(copy);
 
   const more = document.createElement('button');
+  more.className = 'view-details';
   // add aria-label to view-details button for screen readers
   more.setAttribute('aria-label', 'view details for ' + restaurant.name);
   more.innerHTML = 'View Details';
@@ -184,10 +214,27 @@ createRestaurantHTML = (restaurant) => {
     const link = DBHelper.urlForRestaurant(restaurant);
     window.location = link
   }
-  article.append(more)
+  infoContainer.append(more);
+
+  article.append(infoContainer);
 
   return article
 }
+
+changeFavElement = (el, fav) => {
+  if (!fav) {
+    el.classList.remove('favorite_yes');
+    el.classList.add('favorite_no');
+    el.setAttribute('aria-label', 'removed as favorite');
+  } else {
+      console.log('toggle yes update');
+      el.classList.remove('favorite_no');
+      el.classList.add('favorite_yes');
+      el.setAttribute('aria-label', 'marked as favorite');
+  }
+
+}
+
 
 /**
  * Add markers for current restaurants to the map.
