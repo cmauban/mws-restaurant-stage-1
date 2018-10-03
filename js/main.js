@@ -144,7 +144,7 @@ fillRestaurantsHTML = (restaurants = self.restaurants) => {
  */
 createRestaurantHTML = (restaurant) => {
   const article = document.createElement('article');
-
+  console.log('is_favorite: ', restaurant['is_favorite']);
   const isFavorite = (restaurant['is_favorite'] && restaurant['is_favorite'].toString() === 'true') ? true : false;
   const favoriteContainer = document.createElement('div');
   favoriteContainer.className = 'favorite-container';
@@ -160,7 +160,7 @@ createRestaurantHTML = (restaurant) => {
        favorite.classList.add('fav_button');
     favorite.onclick = event => handleFavoriteClick(restaurant.id, !isFavorite);
       favorite.onclick = function() {
-        const isFavorite = !restaurant.is_favorite;
+        // const isFavorite = !restaurant.is_favorite;
         // DBHelper.updateFavoriteStatus(restaurant.id, isFavorite);
         restaurant.is_favorite = !restaurant.is_favorite
         changeFavElement(favoriteIcon, restaurant.is_favorite)
@@ -233,6 +233,18 @@ changeFavElement = (el, fav) => {
       el.setAttribute('aria-label', 'marked as favorite');
   }
 
+}
+
+const handleFavoriteClick = (id, newState) => {
+  const favorite = document.getElementById('favorite-icon-' + id);
+  const restaurant = self
+    .restaurants
+    .filter(r => r.id === id)[0];
+  if (!restaurant)
+    return;
+  restaurant['is_favorite'] = newState;
+  favorite.onclick = event => handleFavoriteClick(restaurant.id, !restaurant['is_favorite']);
+  DBHelper.handleFavoriteClick(id, newState);
 }
 
 
