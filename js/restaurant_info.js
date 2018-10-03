@@ -142,6 +142,7 @@ fillReviewsHTML = (reviews = self.restaurant.reviews) => {
 
   if (!reviews) {
     const noReviews = document.createElement('p');
+    noReviews.className = 'no-reviews';
     noReviews.innerHTML = 'No reviews yet!';
     container.appendChild(noReviews);
     return;
@@ -180,6 +181,15 @@ createReviewHTML = (review) => {
 
   return li;
 }
+
+/**
+ * Display review form
+ */
+ $('#start-review').click(function(){
+   $(this).addClass('hide');
+   $('.no-reviews').addClass('hide');
+   $('#form-container').addClass('open');
+ });
 
 /**
  * Add restaurant name to the breadcrumb navigation menu

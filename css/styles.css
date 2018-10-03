@@ -436,15 +436,56 @@ header h1 a {
   float: left;
 }
 
-#reviews-container .review-header #add-review {
+#reviews-container .add-review {
   float: right;
   background-color: #921a6e;
   color: #fff;
   font-size: 16px;
-  padding: 8px 30px 10px;
+  padding: 0 20px;
   text-align: center;
   text-decoration: none;
   text-transform: uppercase;
+}
+
+#reviews-container #form-container {
+  display: none;
+}
+
+#reviews-container #form-container.open {
+  width: 100%;
+  display: block !important;
+}
+
+.hide {
+  display: none;
+}
+
+#review-form {
+  width: 50%;
+  margin: 0 auto;
+}
+
+#review-form label {
+  display: block !important;
+}
+
+#review-form #review-name,
+#review-form #review-selection,
+#review-form #review-comments {
+  width: 100%;
+  margin-bottom: 20px;
+}
+
+#review-form #review-name {
+  height: 25px;
+}
+
+#review-form #review-comments {
+  height: 100px;
+}
+
+#review-form #review-selection {
+  width: 60px;
 }
 
 #reviews-list {
