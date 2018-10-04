@@ -214,6 +214,39 @@ class DBHelper {
   }
 
   /**
+   * FETCH REVIEWS
+   */
+  static fetchRestaurantReviwsByID(id) {
+    return fetch(`${DBHelper.DATABASE_URL}/reviews/?restaurant_id=${id}`)
+      .then(response => response.json())
+      .then(reviews => {
+        this.dbPromise().then(db => {
+          if (!db) return;
+
+          let tx = db.transaction('reviews', 'readwrite');
+          const store = tx.objectStore('reviews');
+          if(Array.isArray(reviews)) {
+            reviews.forEach(function(review) {
+              store.put(review);
+            });
+          } else {
+            store.put(reviews);
+          }
+        });
+        console.log('restaurant reviews are: ', reviews);
+        return Promise.resolve(reviews);
+      }).catch(error => {
+        return DBHelper.getStoredObjectByID('reviews', 'restaurant', id)
+          .then((storedReviews) => {
+            console.log('looking for offline stored reviews');
+            return Promise.resolve(storedReviews);
+          })
+      });
+  }
+
+
+
+  /**
    * Restaurant page URL.
    */
   static urlForRestaurant(restaurant) {

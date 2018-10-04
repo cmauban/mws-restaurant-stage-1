@@ -144,6 +144,7 @@ fillRestaurantsHTML = (restaurants = self.restaurants) => {
  */
 createRestaurantHTML = (restaurant) => {
   const article = document.createElement('article');
+
   console.log('is_favorite: ', restaurant['is_favorite']);
   const isFavorite = (restaurant['is_favorite'] && restaurant['is_favorite'].toString() === 'true') ? true : false;
   const favoriteContainer = document.createElement('div');
@@ -154,13 +155,13 @@ createRestaurantHTML = (restaurant) => {
     favorite.className = 'favorite-icon';
       const favoriteIcon = document.createElement('span');
         favoriteIcon.innerHTML = isFavorite
-        ? restaurant.name + ' is favorite'
-        : restaurant.name + ' is not a favorite';
+        // ? restaurant.name + ' is favorite'
+        // : restaurant.name + ' is not a favorite';
        favorite.append(favoriteIcon);
        favorite.classList.add('fav_button');
     favorite.onclick = event => handleFavoriteClick(restaurant.id, !isFavorite);
       favorite.onclick = function() {
-        // const isFavorite = !restaurant.is_favorite;
+        const isFavorite = !restaurant.is_favorite;
         // DBHelper.updateFavoriteStatus(restaurant.id, isFavorite);
         restaurant.is_favorite = !restaurant.is_favorite
         changeFavElement(favoriteIcon, restaurant.is_favorite)
@@ -221,19 +222,6 @@ createRestaurantHTML = (restaurant) => {
   return article
 }
 
-changeFavElement = (el, fav) => {
-  if (!fav) {
-    el.classList.remove('favorite_yes');
-    el.classList.add('favorite_no');
-    el.setAttribute('aria-label', 'removed as favorite');
-  } else {
-      console.log('toggle yes update');
-      el.classList.remove('favorite_no');
-      el.classList.add('favorite_yes');
-      el.setAttribute('aria-label', 'marked as favorite');
-  }
-
-}
 
 const handleFavoriteClick = (id, newState) => {
   const favorite = document.getElementById('favorite-icon-' + id);
@@ -245,6 +233,23 @@ const handleFavoriteClick = (id, newState) => {
   restaurant['is_favorite'] = newState;
   favorite.onclick = event => handleFavoriteClick(restaurant.id, !restaurant['is_favorite']);
   DBHelper.handleFavoriteClick(id, newState);
+}
+
+
+changeFavElement = (el, fav) => {
+  if (!fav) {
+    el.classList.remove('favorite_yes');
+    el.classList.add('favorite_no');
+    el.setAttribute('aria-label', 'removed as favorite');
+    el.classList.innerHTML = 'false';
+  } else {
+      console.log('toggle yes update');
+      el.classList.remove('favorite_no');
+      el.classList.add('favorite_yes');
+      el.setAttribute('aria-label', 'marked as favorite');
+  }
+
+
 }
 
 
