@@ -215,4 +215,12 @@ getParameterByName = (name, url) => {
   if (!results[2])
     return '';
   return decodeURIComponent(results[2].replace(/\+/g, ' '));
+};
+
+const handleFavoriteClick = (id, newState) => {
+  const favorite = document.getElementById('favorite-icon-' + id);
+  /* change data to new state */
+  self.restaurants['is_favorite'] = newState;
+  favorite.onclick = event => handleFavoriteClick(restaurant.id, !self.restaurant['is_favorite']);
+  DBHelper.handleFavoriteClick(id, newState);
 }

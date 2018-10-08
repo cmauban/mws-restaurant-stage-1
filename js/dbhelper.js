@@ -1,11 +1,12 @@
 // open database
-const dbPromise = idb.open('mws-restaurant-stage-2', 1, function(upgradeDB){
+const dbPromise = idb.open('mws-restaurant-stage-3', 2, function(upgradeDB){
   switch(upgradeDB.oldVersion) {
-    case 0: // placeholder
-    case 1:
+    case 0:
       upgradeDB.createObjectStore('restaurants', {keyPath: 'id'});
       console.log('Created restaurant review obj store');
-      // DBHelper.storeRestaurantsToIDB();
+    case 1:
+      const storedReviews = upgradeDB.createObjectStore('reviews', {keyPath: 'id'});
+      storedReviews.createIndex('restaurant', 'restaurant_id');
   }
 });
 
@@ -213,9 +214,40 @@ class DBHelper {
     });
   }
 
+
+  /* SEND FAVORITE UPDATE */
+  static updateFavoriteStatus(restaurantId, isFavorite) {
+    console.log('changing status to: ', isFavorite);
+
+    fetch(`${DBHelper.DATABASE_URL}/${restaurantId}/?is_favorite=${isFavorite}`, { method: 'PUT'})
+    .then(() => {
+      console.log('changed');
+      this.dbPromise().then(db => {
+        const tx = db.tranaction('restaurants', 'readwrite');
+        const restaurantsStore = tx.objectStore('restaurants');
+        restaurantsStore.get(restaurantID).then(restaurant => {
+          restaurant.is_favorite = isFavorite;
+          restaurantsStore.put(restaurant);
+        });
+      })
+    })
+  }
+
+
   /**
    * FETCH REVIEWS
    */
+// static getStoredObjectByID(table, idx, id) {
+//   return this.dbPromise().then(function(db){
+//     if(!db) return;
+//
+//     const store = db.transaction(table).objectStore(table);
+//     const indexID = store.index(idx);
+//     return indexID.getAll(id);
+//   });
+// }
+
+
   static fetchRestaurantReviwsByID(id) {
     return fetch(`${DBHelper.DATABASE_URL}/reviews/?restaurant_id=${id}`)
       .then(response => response.json())
