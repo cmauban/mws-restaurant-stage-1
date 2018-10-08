@@ -191,6 +191,40 @@ createReviewHTML = (review) => {
    $('#form-container').addClass('open');
  });
 
+ $('#submit-review').click(function(){
+   $(this).removeClass('hide');
+   $('.no-reviews').removeClass('hide');
+   $('#form-container').removeClass('open');
+ });
+
+
+ /**
+  * Review submit form
+  */
+addReview = () => {
+  event.preventDefault();
+  // get data from the form
+  let restaurant_id = getParameterByName('id');
+  let name = document.getElementById('review-name').value;
+  let rating = document.querySelector('#review-selection option:checked').value;
+  let comments = document.getElementById('review-comments').value;
+
+  const review = [name, rating, comments, restaurant_id];
+  // add data to UI
+  const displayReview = {
+    restaurant_id: parseInt(review[3]),
+    name: review[0],
+    createdAt: new Date(),
+    rating: parseInt(review[1]),
+    comments: review[2].substring(0, 300),
+  };
+
+  // add review form to database
+  DBHelper.addReview(displayReview);
+  createReviewHTML(displayReview);
+  document.getElementById('review-form').reset();
+}
+
 /**
  * Add restaurant name to the breadcrumb navigation menu
  */
