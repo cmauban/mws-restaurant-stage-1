@@ -172,10 +172,11 @@ createReviewHTML = (review) => {
   name.className = 'review-name';
   li.appendChild(name);
 
-  const date = document.createElement('p');
-  date.innerHTML = review.date;
-  date.className = 'review-date';
-  li.appendChild(date);
+  // TODO: GET DATE FORMATTED CORRECTLY
+  // const date = document.createElement('p');
+  // date.innerHTML = review.date;
+  // date.className = 'review-date';
+  // li.appendChild(date);
 
   const rating = document.createElement('p');
   rating.innerHTML = `Rating: ${review.rating}`;
@@ -231,6 +232,8 @@ addReview = () => {
   DBHelper.addReview(displayReview);
   createReviewHTML(displayReview);
   document.getElementById('review-form').reset();
+  // TODO: GET REFRESH WORKING
+  // window.location.reload(true);
 }
 
 /**

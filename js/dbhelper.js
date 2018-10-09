@@ -219,9 +219,11 @@ class DBHelper {
   static updateFavoriteStatus(restaurantId, isFavorite) {
     console.log('changing status to: ', isFavorite);
 
+    // update the favorited restaurant
     fetch(`${RESTAURANTS_URL}${restaurantId}/?is_favorite=${isFavorite}`, { method: 'PUT'})
     .then(() => {
       console.log('changed');
+      // store the update in indexed db for later user
       this.dbPromise().then(db => {
         const tx = db.tranaction('restaurants', 'readwrite');
         const restaurantsStore = tx.objectStore('restaurants');
@@ -231,6 +233,42 @@ class DBHelper {
         });
       })
     })
+
+  }
+
+  // Add review when offline.
+  // code help from Elisa Romondia and Lorenzo Zaccagnini
+  static sendDataWhenOnline(offline_obj) {
+    console.log('offline obj', offline_obj);
+    // stores the review obj in local storage
+    localStorage.setItem('data', JSON.stringify(offline_obj.data));
+    // adds an event listener to wait in background until user is online
+    console.log(`local storage: ${offline_obj.object_type} stored`);
+    // when online again, gets the review from the local storage
+    window.addEventListener('online', (event) => {
+      console.log('browser: online again!');
+      let data = JSON.parse(localStorage.getItem('data'));
+      console.log('updating and cleaning UI');
+      // updates the UI
+      [...document.querySelectorAll('.reviews_offline')].forEach(el => {
+        el.classList.remove('reviews_offline')
+        el.querySelector('.offline_label').remove()
+      });
+
+      if (data !== null) {
+        console.log(data);
+          if(offline_obj.name === 'addReview') {
+            // sends the review to the server
+            DBHelper.addReview(offline_obj.data);
+          }
+
+          console.log('local State: data sent to api');
+
+          // removes the obj previously sent from local storage
+          localStorage.removeItem('data');
+          console.log(`local storage: ${offline_obj.object_type} removed`);
+      }
+    });
   }
 
   /**
@@ -251,20 +289,20 @@ class DBHelper {
 
         console.log('sending review: ', body);
 
+        // creates an object for offline storage
         let offline_obj = {
           name: 'addReview',
           data: review,
           object_type: 'review'
         };
 
-        //Check if offline
-       if (!navigator.onLine && (offline_obj.name === 'addReview')) {
-         sendDataWhenOnline(offLine_obj);
+        // if offline, stores data in local storge to send it when online
+       if (!navigator.online && (offline_obj.name === 'addReview')) {
+         DBHelper.sendDataWhenOnline(offline_obj);
          return;
        }
 
-       const URL = `${this.REVIEWS_URL}`;
-
+       // fetch object containing the method and body obj and stringified the review data from form.
        const properties = {
          body: JSON.stringify(body),
          method: 'POST',
@@ -308,24 +346,24 @@ class DBHelper {
         return Promise.resolve(reviews);
         /* if offline, fail and fetch reviews from indexed db */
       }).catch(error => {
-        // return DBHelper.getStoredObjectByID('reviews', 'restaurant', id)
-          // .then((storedReviews) => {
-            // console.log('looking for offline stored reviews');
-            // return Promise.resolve(storedReviews);
-          // })
+        return DBHelper.getStoredObjectByID('reviews', 'restaurant', id)
+          .then((storedReviews) => {
+            console.log('looking for offline stored reviews');
+            return Promise.resolve(storedReviews);
+          })
       });
   }
-  //
-  // static getStoredObjectByID(table, idx, id) {
-  //   return this.dbPromise()
-  //   .then(function(db){
-  //     if(!db) return;
-  //
-  //     const store = db.transaction(table).objectStore(table);
-  //     const indexID = store.index(idx);
-  //     return indexID.getAll(id);
-  //   });
-  // }
+
+  static getStoredObjectByID(table, idx, id) {
+    return this.dbPromise()
+    .then(function(db){
+      if(!db) return;
+
+      const store = db.transaction(table).objectStore(table);
+      const indexID = store.index(idx);
+      return indexID.getAll(id);
+    });
+  }
 
   /**
    * FETCH REVIEWS
