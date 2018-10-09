@@ -63,6 +63,8 @@ class DBHelper {
     });
   }
 
+
+
   /**
    * Fetch all restaurants.
    */
@@ -236,6 +238,44 @@ class DBHelper {
 
   }
 
+  // STORE REVIEWS TO indexDB
+  static storeReviewsToIDB() {
+
+    // fetch data from server and convert to JSON
+    fetch(REVIEWS_URL).then(function(response) {
+      return response.json();
+    // put JSON data in restaurants indexDB
+    }).then(function(restaurants) {
+      console.log('pulled reviews json data successful');
+      dbPromise.then(function(db) {
+        if(!db) return;
+        var tx = db.transaction('reviews', 'readwrite');
+        var store = tx.objectStore('reviews');
+        restaurants.forEach(function(review) {
+          store.put(review)
+        });
+      });
+      // return it
+      callback(null, reviews);
+    }).catch(function(err) {
+      const error = (`unable to store reviews ${err}`);
+    });
+
+  }
+
+  // FETCH RESTAURANTS FROM indexDB
+  static getReviewsFromIDB() {
+    dbPromise.then(function(db) {
+      var tx = db.transaction('reviews', 'readonly');
+      var store = tx.objectStore('reviews');
+      return store.getAll();
+    }).then(function(items) {
+      console.log('review items:', items);
+    });
+  }
+
+
+
   // Add review when offline.
   // code help from Elisa Romondia and Lorenzo Zaccagnini
   static sendDataWhenOnline(offline_obj) {
@@ -371,6 +411,10 @@ class DBHelper {
 
    // Help method to fetch review from server.
   static fetchReviews(url = "", errorMessage = "Error: ") {
+
+    DBHelper.storeReviewsToIDB();
+    DBHelper.getReviewsFromIDB();
+
       return fetch(url)
         .then(response => {
           if (!response.ok) {
