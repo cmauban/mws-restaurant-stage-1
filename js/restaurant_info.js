@@ -110,7 +110,7 @@ fillRestaurantHTML = (restaurant = self.restaurant) => {
     fillRestaurantHoursHTML();
   }
   // fill reviews
-  DBHelper.fetchRestaurantReviwsByID(restaurant.id, fillReviewsHTML);
+  fillReviewsHTML();
 }
 
 /**
@@ -137,21 +137,29 @@ fillRestaurantHoursHTML = (operatingHours = self.restaurant.operating_hours) => 
  * Create all reviews HTML and add them to the webpage.
  */
 fillReviewsHTML = (reviews = self.restaurant.reviews) => {
-  const container = document.getElementById('reviews-container');
+  // fetch all reviews
+  DBHelper.fetchRestaurantReviwsByID(self.restaurant.id, (error, reviews) => {
 
-  if (!reviews) {
-    const noReviews = document.createElement('p');
-    noReviews.className = 'no-reviews';
-    noReviews.innerHTML = 'No reviews yet!';
-    container.appendChild(noReviews);
-    return;
-  }
+    const container = document.getElementById('reviews-container');
 
-  const ul = document.getElementById('reviews-list');
-  reviews.forEach(review => {
-    ul.appendChild(createReviewHTML(review));
+    // if no reviews, display:
+    if (!reviews) {
+      const noReviews = document.createElement('p');
+      noReviews.className = 'no-reviews';
+      noReviews.innerHTML = 'No reviews yet!';
+      container.appendChild(noReviews);
+      return;
+    }
+
+    const ul = document.getElementById('reviews-list');
+
+    // create review HTML for each review
+    reviews.forEach(review => {
+      ul.appendChild(createReviewHTML(review));
+    });
+
+    container.appendChild(ul);
   });
-  container.appendChild(ul);
 }
 
 /**

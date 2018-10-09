@@ -280,19 +280,22 @@ class DBHelper {
 
 
   /**
-   * FETCH REVIEWS
+   * STORE REVIEWS
    */
 
-  static fetchRestaurantReviwsByID(id) {
+  static storeReviews(id) {
     /* fetch data from server */
     return fetch(`${REVIEWS_URL}?restaurant_id=${id}`)
-      .then(response => response.json())
+      .then(response => {
+        return response.json();
+      })
       .then(reviews => {
         this.dbPromise().then(db => {
           if (!db) return;
           /* store reviews in indexed db */
           let tx = db.transaction('reviews', 'readwrite');
           const store = tx.objectStore('reviews');
+          return store.getAll();
           if(Array.isArray(reviews)) {
             reviews.forEach(function(review) {
               store.put(review);
@@ -324,6 +327,41 @@ class DBHelper {
   //   });
   // }
 
+  /**
+   * FETCH REVIEWS
+   */
+
+   // Help method to fetch review from server.
+  static fetchReviews(url = "", errorMessage = "Error: ") {
+      return fetch(url)
+        .then(response => {
+          if (!response.ok) {
+            throw new Error(response.statusText);
+          }
+          return response.json();
+        })
+        .catch(err => {
+          return err;
+        });
+    }
+
+
+  static fetchRestaurantReviwsByID(id, callback) {
+    // verify the restaurant ID
+    if (!Number.isInteger(Number(id))) {
+      // throw error if id invalid
+      callback(new Error(`ID: ${id} is not a valid id.`), null);
+    }
+
+    // Fetch the review from the server.
+    DBHelper.fetchReviews(`${REVIEWS_URL}?restaurant_id=${id}`,"error while fetching reviews: ")
+      .then(reviews => {
+        callback(null, reviews);
+      })
+      .catch(err => {
+        callback(err, null);
+      });
+  }
 
 
   /**
